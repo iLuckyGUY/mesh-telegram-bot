@@ -24,8 +24,11 @@ if ! grep -q "^    BOT_DISPLAY_NAME:" "$CONFIG_FILE" 2>/dev/null; then
     BOT_DISPLAY_NAME: str = 'Remnawave Bedolaga Bot'\\
     DEVELOPER_CONTACT_URL: str = 'https://t.me/fringg'\\
     COMMUNITY_URL: str = 'https://t.me/+wTdMtSWq8YdmZmVi'\\
+    GITHUB_BOT_URL: str = 'https://github.com/iLuckyGUY/mesh-bot'\\
+    GITHUB_CABINET_URL: str = 'https://github.com/iLuckyGUY/mesh-app'\\
+    CABINET_REPO: str = 'BEDOLAGA-DEV/bedolaga-cabinet'\\
 " "$CONFIG_FILE"
-    echo "  ✅ config.py — BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL, COMMUNITY_URL added"
+    echo "  ✅ config.py — BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL, COMMUNITY_URL, GITHUB_BOT_URL, GITHUB_CABINET_URL, CABINET_REPO added"
 else
     echo "  ✓ config.py — fields already exist"
 fi
@@ -70,11 +73,39 @@ sed_checked "$SNS_FILE" \
     "startup_notification.py — use settings.DEVELOPER_CONTACT_URL"
 
 sed_checked "$SNS_FILE" \
+    "^GITHUB_BOT_URL: Final\[str\] = 'https://github.com/BEDOLAGA-DEV/remnawave-bedolaga-telegram-bot'" \
+    "# GITHUB_BOT_URL — now from settings.GITHUB_BOT_URL" \
+    "startup_notification.py — remove hardcoded GITHUB_BOT_URL"
+
+sed_checked "$SNS_FILE" \
+    "^GITHUB_CABINET_URL: Final\[str\] = 'https://github.com/BEDOLAGA-DEV/bedolaga-cabinet'" \
+    "# GITHUB_CABINET_URL — now from settings.GITHUB_CABINET_URL" \
+    "startup_notification.py — remove hardcoded GITHUB_CABINET_URL"
+
+sed_checked "$SNS_FILE" \
+    "url=GITHUB_BOT_URL," \
+    "url=settings.GITHUB_BOT_URL," \
+    "startup_notification.py — use settings.GITHUB_BOT_URL"
+
+sed_checked "$SNS_FILE" \
+    "url=GITHUB_CABINET_URL," \
+    "url=settings.GITHUB_CABINET_URL," \
+    "startup_notification.py — use settings.GITHUB_CABINET_URL"
+
+sed_checked "$SNS_FILE" \
     "<b>Remnawave Bedolaga Bot</b>" \
     "<b>{settings.BOT_DISPLAY_NAME}</b>" \
     "startup_notification.py — use settings.BOT_DISPLAY_NAME (×2)"
 
+# ── 4. admin_updates.py: use settings.CABINET_REPO ──────────
+ADM_FILE="${APP_DIR}/cabinet/routes/admin_updates.py"
+sed_checked "$ADM_FILE" \
+    "^CABINET_REPO = 'BEDOLAGA-DEV/bedolaga-cabinet'" \
+    "CABINET_REPO = settings.CABINET_REPO or 'BEDOLAGA-DEV/bedolaga-cabinet'" \
+    "admin_updates.py — use settings.CABINET_REPO"
+
 echo ""
 echo "━━━ Env-var branding support added successfully ━━━"
-echo "  Set BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL,"
-echo "  COMMUNITY_URL in runtime env to override defaults."
+echo "  Set BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL, COMMUNITY_URL,"
+echo "  GITHUB_BOT_URL, GITHUB_CABINET_URL, CABINET_REPO"
+echo "  in runtime env to override defaults."
