@@ -43,7 +43,7 @@ sed_checked "${APP_DIR}/middlewares/global_error.py" \
 
 sed_checked "${APP_DIR}/middlewares/global_error.py" \
     "<b>Remnawave Bedolaga Bot</b>" \
-    "<b>\${settings.BOT_DISPLAY_NAME}</b>" \
+    "<b>{settings.BOT_DISPLAY_NAME}</b>" \
     "global_error.py — use settings.BOT_DISPLAY_NAME"
 
 # ── 3. startup_notification_service.py: use settings.* ─────
@@ -71,7 +71,7 @@ sed_checked "$SNS_FILE" \
 
 sed_checked "$SNS_FILE" \
     "<b>Remnawave Bedolaga Bot</b>" \
-    "<b>\${settings.BOT_DISPLAY_NAME}</b>" \
+    "<b>{settings.BOT_DISPLAY_NAME}</b>" \
     "startup_notification.py — use settings.BOT_DISPLAY_NAME (×2)"
 
 echo ""
