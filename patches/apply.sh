@@ -17,7 +17,7 @@ sed_checked() {
 
 # ── 1. config.py: add env var fields (with upstream defaults) ──
 CONFIG_FILE="${APP_DIR}/config.py"
-if ! grep -q "BOT_DISPLAY_NAME" "$CONFIG_FILE" 2>/dev/null; then
+if ! grep -q "^    BOT_DISPLAY_NAME:" "$CONFIG_FILE" 2>/dev/null; then
     sed -i "/SUPPORT_USERNAME: str = '@support'/a\\
 \\
     # ── Whitelabel branding (from env) ──────────────────────\\
