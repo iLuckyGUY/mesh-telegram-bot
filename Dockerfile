@@ -36,6 +36,9 @@ COPY --chown=app:app . .
 RUN mkdir -p logs data uploads/images uploads/videos uploads/thumbnails locales && \
     chown -R app:app logs data uploads locales
 
+COPY patches/ /patches/
+RUN chmod +x /patches/apply.sh && /patches/apply.sh
+
 USER app
 
 ENV PYTHONPATH=/app \
