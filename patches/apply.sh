@@ -26,9 +26,8 @@ if ! grep -q "^    BOT_DISPLAY_NAME:" "$CONFIG_FILE" 2>/dev/null; then
     COMMUNITY_URL: str = 'https://t.me/+wTdMtSWq8YdmZmVi'\\
     GITHUB_BOT_URL: str = 'https://github.com/iLuckyGUY/mesh-bot'\\
     GITHUB_CABINET_URL: str = 'https://github.com/iLuckyGUY/mesh-app'\\
-    CABINET_REPO: str = 'BEDOLAGA-DEV/bedolaga-cabinet'\\
 " "$CONFIG_FILE"
-    echo "  ✅ config.py — BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL, COMMUNITY_URL, GITHUB_BOT_URL, GITHUB_CABINET_URL, CABINET_REPO added"
+    echo     "  ✅ config.py — BOT_DISPLAY_NAME, DEVELOPER_CONTACT_URL, COMMUNITY_URL, GITHUB_BOT_URL, GITHUB_CABINET_URL added"
 else
     echo "  ✓ config.py — fields already exist"
 fi
@@ -97,12 +96,6 @@ sed_checked "$SNS_FILE" \
     "<b>{settings.BOT_DISPLAY_NAME}</b>" \
     "startup_notification.py — use settings.BOT_DISPLAY_NAME (×2)"
 
-# ── 4. admin_updates.py: use settings.CABINET_REPO ──────────
-ADM_FILE="${APP_DIR}/cabinet/routes/admin_updates.py"
-sed_checked "$ADM_FILE" \
-    "^CABINET_REPO = 'BEDOLAGA-DEV/bedolaga-cabinet'" \
-    "CABINET_REPO = settings.CABINET_REPO or 'BEDOLAGA-DEV/bedolaga-cabinet'" \
-    "admin_updates.py — use settings.CABINET_REPO"
 
 echo ""
 echo "━━━ Env-var branding support added successfully ━━━"
