@@ -96,18 +96,17 @@ sed_checked "$SNS_FILE" \
     "<b>{settings.BOT_DISPLAY_NAME}</b>" \
     "startup_notification.py — use settings.BOT_DISPLAY_NAME (×2)"
 
+sed_checked "$SNS_FILE" \
+    "<h5>🤖 Remnawave Bedolaga Bot</h5>" \
+    "<h5>🤖 {settings.BOT_DISPLAY_NAME}</h5>" \
+    "startup_notification.py — use settings.BOT_DISPLAY_NAME in h5 emoji title"
+
 
 # ── 4. rich_admin.py: use settings.BOT_DISPLAY_NAME in footer ──
-RICH_ADMIN_FILE="${APP_DIR}/utils/rich_admin.py"
-if grep -q "def rich_footer_now(label: str = '')" "$RICH_ADMIN_FILE" 2>/dev/null; then
-    echo "  ✓ rich_admin.py — already patched"
-elif grep -q "def rich_footer_now(label: str = 'Remnawave Bedolaga Bot')" "$RICH_ADMIN_FILE" 2>/dev/null; then
-    sed -i "s|def rich_footer_now(label: str = 'Remnawave Bedolaga Bot') -> str:|def rich_footer_now(label: str = '') -> str:|" "$RICH_ADMIN_FILE"
-    sed -i "s|    return f'<footer>{html.escape(label)} · {stamp}</footer>'|    label = label or settings.BOT_DISPLAY_NAME\n    return f'<footer>{html.escape(label)} · {stamp}</footer>'|" "$RICH_ADMIN_FILE"
-    echo "  ✅ rich_admin.py — use settings.BOT_DISPLAY_NAME in footer"
-else
-    echo "  ⚠️  rich_admin.py — pattern not found (upstream may have changed)"
-fi
+sed_checked "${APP_DIR}/utils/rich_admin.py" \
+    "def rich_footer_now(label: str = 'Remnawave Bedolaga Bot') -> str:" \
+    "def rich_footer_now(label: str = settings.BOT_DISPLAY_NAME) -> str:" \
+    "rich_admin.py — use settings.BOT_DISPLAY_NAME as footer default"
 
 
 echo ""
